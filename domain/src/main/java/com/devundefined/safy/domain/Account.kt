@@ -11,7 +11,11 @@ class Account(private val currency: Currency) {
         this.total = total
     }
 
+    @Throws(IllegalArgumentException::class)
     fun add(income: Income) {
+        if (currency != income.currency) {
+            throw IllegalArgumentException("Can't add income with another currency")
+        }
         total += income.amount
     }
 }

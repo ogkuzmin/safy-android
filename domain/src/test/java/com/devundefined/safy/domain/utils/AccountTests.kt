@@ -23,4 +23,14 @@ class AccountTests {
 
         assertEquals((accountMoney + incomeMoney).amount, account.total.amount)
     }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun whenAddIncome_shouldFail_ifIncomeAndAccountWithDifferentCurrencies() {
+        val accountMoney = moneyFactory.moneyWithAmount(100.0)
+        val account = CreateAccount().withTotal(accountMoney).please()
+        val incomeMoney = MoneyFactory(Currency.getInstance("RUB")).moneyWithAmount(1000.0)
+        val income = CreateIncome().withAmount(incomeMoney).please()
+
+        account.add(income)
+    }
 }
