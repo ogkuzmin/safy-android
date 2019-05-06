@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
@@ -22,12 +21,20 @@ android {
     }
 }
 
+def cicerone_v = '5.0.0'
+def dagger2_v = '2.21'
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
     implementation 'androidx.core:core-ktx:1.1.0-alpha05'
     implementation project(":domain")
+    // Cicerone
+    implementation "ru.terrakok.cicerone:cicerone:$cicerone_v"
+    // Dagger2
+    implementation "com.google.dagger:dagger:$dagger2_v"
+    kapt "com.google.dagger:dagger-compiler:$dagger2_v"
 
     testImplementation 'junit:junit:4.12'
 
