@@ -1,26 +1,34 @@
 package com.devundefined.safy.presentation
 
-import androidx.appcompat.app.AppCompatActivity
+import com.arellomobile.mvp.MvpAppCompatActivity
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.devundefined.safy.R
 import com.devundefined.safy.SafyApp
-import com.devundefined.safy.di.DependencyManager
-import com.devundefined.safy.di.DependencyManagerImpl
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : MainView, MvpAppCompatActivity() {
 
     private val navigator: Navigator by lazy {
         SupportAppNavigator(this, R.id.fragment_container)
     }
 
-    private val app = SafyApp.INSTANCE
+    @InjectPresenter
+    lateinit var presenter: MainPresenter
 
-    val dependencyManager = createDependencyManager()
+    @ProvidePresenter
+    fun providePresenter() = MainPresenter(SafyApp.INSTANCE.dependencyManager.appComponent().router())
+
+    private val navigatorHolder = SafyApp.INSTANCE.dependencyManager.appComponent().navigatorHolder()
 
     override fun onResumeFragments() {
         super.onResumeFragments()
+        navigatorHolder.setNavigator(navigator)
     }
 
-    private fun createDependencyManager(): DependencyManager = DependencyManagerImpl()
+    override fun onPause() {
+        navigatorHolder.removeNavigator()
+        super.onPause()
+    }
 }

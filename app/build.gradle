@@ -23,6 +23,7 @@ android {
 
 def cicerone_v = '5.0.0'
 def dagger2_v = '2.21'
+def moxy_v = '1.7.0'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -35,9 +36,13 @@ dependencies {
     // Dagger2
     implementation "com.google.dagger:dagger:$dagger2_v"
     kapt "com.google.dagger:dagger-compiler:$dagger2_v"
+    // Moxy
+    kapt "tech.schoolhelper:moxy-x-compiler:$moxy_v"
+    implementation "tech.schoolhelper:moxy-x:$moxy_v"
+    implementation "tech.schoolhelper:moxy-x-androidx:$moxy_v"
 
     testImplementation 'junit:junit:4.12'
 
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-beta01'
 }
